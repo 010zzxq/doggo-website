@@ -52,7 +52,7 @@ export default function CommunitySection() {
     const [selectedRange, setSelectedRange] = useState<'1H' | '24H' | 'ALL'>('ALL');
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/tiktok')
+        fetch('https://doggo-website.onrender.com/api/tiktok')
             .then((response) => response.json())
             .then((data) => {
                 setTiktokData(data);
