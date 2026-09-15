@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #081210;
+    --bg-2: #0e1a18;
+    --mint: #34d399;
+    --coral: #fb923c;
+    --pink: #f472b6;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: #e8f5f0;
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--mint);
+    color: #000;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .text-stroke {
+    -webkit-text-stroke: 2px var(--mint);
+    color: transparent;
+  }
+
+  .text-stroke-white {
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.2);
+    color: transparent;
+  }
+
+  .glow-mint {
+    text-shadow: 0 0 40px rgba(52, 211, 153, 0.5);
+  }
+
+  .glow-coral {
+    text-shadow: 0 0 30px rgba(251, 146, 60, 0.5);
+  }
+
+  .bg-grid {
+    background-image: radial-gradient(circle, rgba(52, 211, 153, 0.07) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .bg-radial-mint {
+    background: radial-gradient(ellipse at center, rgba(52, 211, 153, 0.08) 0%, transparent 70%);
+  }
+
+  .card-glow {
+    box-shadow: 0 0 40px rgba(52, 211, 153, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .card-glow-hover {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .card-glow-hover:hover {
+    box-shadow: 0 0 60px rgba(52, 211, 153, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ===== Cat animations ===== */
+@keyframes zoomie-bounce {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  25% {
+    transform: translateY(-30px) rotate(2deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(4deg);
+  }
+
+  75% {
+    transform: translateY(-20px) rotate(-1deg);
+  }
+}
+
+@keyframes zoomie-bounce-fast {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(-5deg) scale(1);
+  }
+
+  20% {
+    transform: translateY(-25px) rotate(5deg) scale(1.05);
+  }
+
+  40% {
+    transform: translateY(-5px) rotate(-3deg) scale(0.95);
+  }
+
+  60% {
+    transform: translateY(-35px) rotate(4deg) scale(1.03);
+  }
+
+  80% {
+    transform: translateY(-15px) rotate(-2deg) scale(0.98);
+  }
+}
+
+@keyframes tail-swish {
+
+  0%,
+  100% {
+    transform: rotate(-15deg);
+  }
+
+  50% {
+    transform: rotate(20deg);
+  }
+}
+
+@keyframes eye-blink {
+
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  93%,
+  96% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes float-slow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes wiggle {
+
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes speed-lines {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateX(-200%);
+    opacity: 0;
+  }
+}
+
+@keyframes dust-puff {
+  0% {
+    transform: scale(0.3) translateY(0);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1.5) translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.animate-zoomie {
+  animation: zoomie-bounce 0.6s ease-in-out infinite;
+}
+
+.animate-zoomie-fast {
+  animation: zoomie-bounce-fast 0.35s ease-in-out infinite;
+}
+
+.animate-tail {
+  animation: tail-swish 0.5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.animate-blink {
+  animation: eye-blink 4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.animate-float-slow {
+  animation: float-slow 4s ease-in-out infinite;
+}
+
+.animate-wiggle {
+  animation: wiggle 2s ease-in-out infinite;
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee-rev {
+  animation: marquee-reverse 30s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-speed-lines {
+  animation: speed-lines 0.8s linear infinite;
+}
+
+.animate-dust {
+  animation: dust-puff 0.6s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-zoomie,
+  .animate-zoomie-fast,
+  .animate-tail,
+  .animate-blink,
+  .animate-float-slow,
+  .animate-wiggle,
+  .animate-marquee,
+  .animate-marquee-rev,
+  .animate-pulse-glow,
+  .animate-spin-slow,
+  .animate-speed-lines,
+  .animate-dust {
+    animation: none;
+  }
+}
