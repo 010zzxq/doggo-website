@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const fs = require("fs");
 
 const app = express();
 
@@ -10,14 +9,14 @@ const PORT = 3001;
 const SOUND_ID = "7664730339339668255";
 
 function getApiKey() {
-  const env = fs.readFileSync(".env", "utf8");
+  return process.env.SOCIALCRAWL_API_KEY;
+}
 
   const line = env
     .split(/\r?\n/)
     .find((line) => line.startsWith("SOCIALCRAWL_API_KEY="));
 
   return line?.substring("SOCIALCRAWL_API_KEY=".length).trim();
-}
 
 app.get("/api/tiktok", async (req, res) => {
   try {
