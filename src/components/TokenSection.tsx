@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Copy, Check, ExternalLink } from 'lucide-react';
+import { Copy, Check, ArrowUpRight } from 'lucide-react';
 
 const TOKEN_ADDRESS = 'FgJReZeYfmKZeWrCaGYL8gLnUixwBhjdHuRknC6ypump';
+
 const DEXSCREENER_API =
     'https://api.dexscreener.com/latest/dex/tokens/FgJReZeYfmKZeWrCaGYL8gLnUixwBhjdHuRknC6ypump';
 
 const links = [
     {
-        label: 'Pump.fun',
+        label: 'BUY ON PUMP.FUN',
         href: 'https://pump.fun/coin/FgJReZeYfmKZeWrCaGYL8gLnUixwBhjdHuRknC6ypump',
     },
     {
-        label: 'DexScreener',
+        label: 'VIEW ON DEXSCREENER',
         href: 'https://dexscreener.com/solana/DBqbqUehE6kr9c4oGvoESs9JJWJJRoVLgCcSPEePD5qT',
     },
 ];
 
 export default function TokenSection() {
     const [copied, setCopied] = useState(false);
+
     const [tokenData, setTokenData] = useState<{
         priceUsd?: string;
         marketCap?: number;
@@ -64,64 +66,97 @@ export default function TokenSection() {
     const copyAddress = () => {
         navigator.clipboard.writeText(TOKEN_ADDRESS);
         setCopied(true);
+
         setTimeout(() => setCopied(false), 2000);
     };
 
     return (
         <section
             id="token"
-            className="relative py-20 md:py-32 bg-[#081210] overflow-hidden"
+            className="relative overflow-hidden bg-[#10251b] text-[#f4f0df] py-24 md:py-36"
         >
-            <div className="absolute inset-0 bg-radial-mint" />
-            <div className="absolute inset-0 bg-grid opacity-50" />
+            {/* Decorative circles */}
+            <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-[#35e77f]" />
 
-            <div className="relative max-w-4xl mx-auto px-4 text-center">
-                <h2 className="font-display text-5xl md:text-7xl mb-3">
-                    Same doggo.{' '}
-                    <span className="text-emerald-400 glow-mint">
-                        On chain.
-                    </span>
-                </h2>
+            <div className="absolute bottom-20 -left-24 w-48 h-48 rounded-full bg-[#ffd62c]" />
 
-                <p className="text-white/50 text-lg mb-12 max-w-lg mx-auto">
-                    Doggo on solana. Check the address. Find his people.
-                </p>
+            <div className="relative max-w-6xl mx-auto px-6 md:px-10">
 
-                <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 rounded-3xl p-8 md:p-10 backdrop-blur-sm card-glow">
+                {/* Header */}
+                <div className="max-w-5xl mb-16">
 
-                    <div className="flex items-center justify-center gap-3 mb-6">
-                        <div className="w-12 h-12 rounded-full bg-emerald-400 flex items-center justify-center overflow-hidden">
-                            <img
-                                src="/dancing-doggo.gif"
-                                alt="Dancing Doggo"
-                                className="h-full w-full object-cover"
-                            />
+                    <p className="mb-5 text-xs md:text-sm font-black tracking-[0.3em] text-[#35e77f]">
+                        THE DOGGO HAS AN ADDRESS.
+                    </p>
+
+                    <h2 className="font-display text-[13vw] md:text-[9vw] lg:text-[8vw] leading-[0.82] tracking-[-0.05em] font-black">
+                        SAME DOGGO.
+                        <br />
+                        <span className="text-[#ffd62c]">
+                            ON CHAIN.
+                        </span>
+                    </h2>
+
+                    <p className="mt-8 max-w-md text-base md:text-lg leading-relaxed font-medium text-[#f4f0df]/55">
+                        If you want to find him, this is where he lives.
+                        Check the address. Follow the numbers. Buy him
+                        if you want. The doggo doesn't judge.
+                    </p>
+                </div>
+
+                {/* Main token card */}
+                <div className="relative rounded-[2rem] bg-[#f4f0df] text-[#10251b] p-6 md:p-10 lg:p-12">
+
+                    {/* Top row */}
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-10">
+
+                        <div className="flex items-center gap-5">
+                            <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#35e77f] overflow-hidden flex items-center justify-center border-4 border-[#10251b]">
+                                <img
+                                    src="/dancing-doggo.gif"
+                                    alt="Dancing Doggo"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+
+                            <div>
+                                <p className="text-xs font-black tracking-[0.2em] text-[#10251b]/40 mb-1">
+                                    THE TOKEN
+                                </p>
+
+                                <h3 className="font-display text-3xl md:text-4xl font-black">
+                                    Dancing Doggo
+                                </h3>
+
+                                <p className="font-display text-lg font-black text-[#35a85f]">
+                                    $DOGGO
+                                </p>
+                            </div>
                         </div>
 
-                        <div className="text-left">
-                            <p className="font-display text-2xl text-white">
-                                Dancing Doggo
-                            </p>
-                            <p className="text-emerald-400 font-display text-lg">
-                                $DOGGO
-                            </p>
+                        <div className="rounded-full bg-[#10251b] px-5 py-3 text-xs font-black tracking-[0.15em] text-[#35e77f] w-fit">
+                            SOLANA ✦ PUMP.FUN
                         </div>
                     </div>
 
-                    <div className="bg-black/40 border border-white/10 rounded-2xl p-4 mb-6">
-                        <p className="text-white/40 text-xs font-mono mb-2 tracking-wider">
-                            CONTRACT ADDRESS
-                        </p>
+                    {/* Contract */}
+                    <div className="rounded-2xl bg-[#10251b] text-[#f4f0df] p-5 md:p-6 mb-8">
 
-                        <div className="flex items-center justify-between gap-3">
-                            <code className="text-emerald-400 text-xs md:text-sm font-mono break-all text-left flex-1">
-                                {TOKEN_ADDRESS}
-                            </code>
+                        <div className="flex items-center justify-between gap-4">
+                            <div className="min-w-0">
+                                <p className="text-[10px] font-black tracking-[0.2em] text-white/35 mb-2">
+                                    CONTRACT ADDRESS
+                                </p>
+
+                                <code className="block text-xs md:text-sm font-mono text-[#35e77f] break-all">
+                                    {TOKEN_ADDRESS}
+                                </code>
+                            </div>
 
                             <button
                                 onClick={copyAddress}
-                                className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/10 hover:bg-emerald-400 hover:text-black transition-all flex items-center justify-center"
-                                aria-label="Copy address"
+                                className="flex-shrink-0 w-12 h-12 rounded-full bg-[#f4f0df]/10 hover:bg-[#35e77f] hover:text-[#10251b] flex items-center justify-center transition-colors"
+                                aria-label="Copy token address"
                             >
                                 {copied ? (
                                     <Check size={18} />
@@ -130,16 +165,23 @@ export default function TokenSection() {
                                 )}
                             </button>
                         </div>
+
+                        {copied && (
+                            <p className="mt-3 text-xs font-bold text-[#35e77f]">
+                                ADDRESS COPIED.
+                            </p>
+                        )}
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    {/* Live stats */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
 
-                        <div className="bg-white/5 rounded-2xl p-4">
-                            <p className="text-white/40 text-xs mb-1">
+                        <div className="rounded-2xl bg-[#e9e4d2] p-5">
+                            <p className="text-[10px] font-black tracking-[0.2em] text-[#10251b]/40 mb-3">
                                 PRICE
                             </p>
 
-                            <p className="font-display text-lg text-white">
+                            <p className="font-display text-xl md:text-2xl font-black">
                                 {tokenData?.priceUsd
                                     ? `$${Number(
                                         tokenData.priceUsd
@@ -149,88 +191,81 @@ export default function TokenSection() {
 
                             {tokenData?.priceChange24h !== undefined && (
                                 <p
-                                    className={`text-xs mt-1 ${tokenData.priceChange24h >= 0
-                                        ? 'text-emerald-400'
-                                        : 'text-red-400'
+                                    className={`text-xs mt-2 font-black ${tokenData.priceChange24h >= 0
+                                            ? 'text-[#35a85f]'
+                                            : 'text-red-500'
                                         }`}
                                 >
                                     {tokenData.priceChange24h >= 0 ? '+' : ''}
-                                    {tokenData.priceChange24h.toFixed(2)}% 24h
+                                    {tokenData.priceChange24h.toFixed(2)}% 24H
                                 </p>
                             )}
                         </div>
 
-                        <div className="bg-white/5 rounded-2xl p-4">
-                            <p className="text-white/40 text-xs mb-1">
+                        <div className="rounded-2xl bg-[#e9e4d2] p-5">
+                            <p className="text-[10px] font-black tracking-[0.2em] text-[#10251b]/40 mb-3">
                                 MARKET CAP
                             </p>
 
-                            <p className="font-display text-lg text-white">
+                            <p className="font-display text-xl md:text-2xl font-black">
                                 {tokenData?.marketCap
                                     ? `$${tokenData.marketCap.toLocaleString()}`
                                     : 'Loading...'}
                             </p>
                         </div>
 
-                        <div className="bg-white/5 rounded-2xl p-4">
-                            <p className="text-white/40 text-xs mb-1">
+                        <div className="rounded-2xl bg-[#e9e4d2] p-5">
+                            <p className="text-[10px] font-black tracking-[0.2em] text-[#10251b]/40 mb-3">
                                 LIQUIDITY
                             </p>
 
-                            <p className="font-display text-lg text-white">
+                            <p className="font-display text-xl md:text-2xl font-black">
                                 {tokenData?.liquidity
                                     ? `$${tokenData.liquidity.toLocaleString()}`
                                     : 'Loading...'}
                             </p>
                         </div>
 
-                        <div className="bg-white/5 rounded-2xl p-4">
-                            <p className="text-white/40 text-xs mb-1">
+                        <div className="rounded-2xl bg-[#e9e4d2] p-5">
+                            <p className="text-[10px] font-black tracking-[0.2em] text-[#10251b]/40 mb-3">
                                 24H VOLUME
                             </p>
 
-                            <p className="font-display text-lg text-white">
+                            <p className="font-display text-xl md:text-2xl font-black">
                                 {tokenData?.volume24h
                                     ? `$${tokenData.volume24h.toLocaleString()}`
                                     : 'Loading...'}
                             </p>
                         </div>
-
                     </div>
-
-                    <div className="bg-white/5 rounded-2xl p-4">
-                        <p className="text-white/40 text-xs mb-1">
-                            LAUNCHPAD
-                        </p>
-
-                        <p className="font-display text-lg text-white">
-                            Pump.fun
-                        </p>
-                    </div>
-
                 </div>
 
-                <div className="flex flex-wrap gap-3 justify-center">
-                    {links.map((link) => (
+                {/* Buttons */}
+                <div className="mt-6 flex flex-col sm:flex-row gap-3">
+
+                    {links.map((link, index) => (
                         <a
                             key={link.label}
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 hover:bg-emerald-400 hover:text-black text-white/70 text-sm font-display tracking-wide transition-all"
+                            className={`flex-1 flex items-center justify-center gap-3 rounded-full px-6 py-4 text-xs md:text-sm font-black tracking-[0.12em] transition-colors ${index === 0
+                                    ? 'bg-[#35e77f] text-[#10251b] hover:bg-[#ffd62c]'
+                                    : 'border-2 border-[#f4f0df]/20 text-[#f4f0df] hover:bg-[#f4f0df] hover:text-[#10251b]'
+                                }`}
                         >
                             {link.label}
-                            <ExternalLink size={14} />
+                            <ArrowUpRight size={16} />
                         </a>
                     ))}
                 </div>
+
+                {/* Disclaimer */}
+                <p className="mt-10 text-center text-[11px] font-bold tracking-wide text-[#f4f0df]/30">
+                    NOT FINANCIAL ADVICE. THE DOGGO DOESN'T EVEN KNOW WHAT
+                    MONEY IS.
+                </p>
             </div>
-
-            <p className="text-white/30 text-xs mt-6 max-w-md mx-auto">
-                or just search the token address above in your chosen tool.
-                Not financial advice. The doggo doesn't even know what money is.
-            </p>
-
         </section>
     );
 }

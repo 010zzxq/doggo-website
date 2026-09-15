@@ -58,56 +58,109 @@ export default function SceneGallery() {
     const [catPos, setCatPos] = useState({ x: 50, y: 50 });
     const [dragging, setDragging] = useState(false);
     const [showHint, setShowHint] = useState(true);
+
     const containerRef = useRef<HTMLDivElement>(null);
     const offset = useRef({ x: 0, y: 0 });
 
-    const handleStart = useCallback((clientX: number, clientY: number) => {
-        const rect = containerRef.current?.getBoundingClientRect();
-        if (!rect) return;
-        const x = clientX - rect.left;
-        const y = clientY - rect.top;
-        offset.current = { x: x - catPos.x * rect.width / 100, y: y - catPos.y * rect.height / 100 };
-        setDragging(true);
-    }, [catPos]);
+    const handleStart = useCallback(
+        (clientX: number, clientY: number) => {
+            const rect = containerRef.current?.getBoundingClientRect();
 
-    const handleMove = useCallback((clientX: number, clientY: number) => {
-        if (!dragging || !containerRef.current) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = ((clientX - rect.left - offset.current.x) / rect.width) * 100;
-        const y = ((clientY - rect.top - offset.current.y) / rect.height) * 100;
-        setCatPos({
-            x: Math.max(5, Math.min(85, x)),
-            y: Math.max(10, Math.min(80, y)),
-        });
-    }, [dragging]);
+            if (!rect) return;
 
-    const handleEnd = useCallback(() => setDragging(false), []);
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+
+            offset.current = {
+                x: x - (catPos.x * rect.width) / 100,
+                y: y - (catPos.y * rect.height) / 100,
+            };
+
+            setDragging(true);
+        },
+        [catPos]
+    );
+
+    const handleMove = useCallback(
+        (clientX: number, clientY: number) => {
+            if (!dragging || !containerRef.current) return;
+
+            const rect = containerRef.current.getBoundingClientRect();
+
+            const x =
+                ((clientX - rect.left - offset.current.x) /
+                    rect.width) *
+                100;
+
+            const y =
+                ((clientY - rect.top - offset.current.y) /
+                    rect.height) *
+                100;
+
+            setCatPos({
+                x: Math.max(5, Math.min(85, x)),
+                y: Math.max(10, Math.min(80, y)),
+            });
+        },
+        [dragging]
+    );
+
+    const handleEnd = useCallback(() => {
+        setDragging(false);
+    }, []);
 
     return (
-        <section id="scenes" className="relative py-20 md:py-32 bg-[#081210] overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4">
-                <div className="text-center mb-12">
-                    <p className="text-emerald-400 font-display text-sm tracking-[0.3em] mb-3">THE INTERNET IS HIS RACETRACK</p>
-                    <h2 className="font-display text-5xl md:text-7xl mb-4">
-                        Put him <span className="text-emerald-400 glow-mint">anywhere</span>.
-                    </h2>
-                    <p className="text-white/50 text-lg max-w-xl mx-auto">
-                        Pick a place. Drag the doggo. Watch him go.
+        <section
+            id="scenes"
+            className="relative overflow-hidden bg-[#10251b] py-24 md:py-36 text-[#f4f0df]"
+        >
+
+
+            <div className="relative mx-auto max-w-7xl px-5 md:px-10">
+
+                {/* Section intro */}
+                <div className="mb-14 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+
+                    <div>
+                        <p className="mb-4 text-xs font-black tracking-[0.3em] text-[#35e77f]">
+                            DOGGO HAS BEEN BUSY
+                        </p>
+
+                        <h2 className="font-display text-6xl leading-[0.82] tracking-[-0.05em] font-black md:text-8xl lg:text-9xl">
+                            PUT HIM
+                            <br />
+                            <span className="text-[#ffd62c]">
+                                ANYWHERE.
+                            </span>
+                        </h2>
+                    </div>
+
+                    <p className="max-w-xs text-sm leading-relaxed text-white/55 md:text-right">
+                        Different place.
+                        <br />
+                        Same dog.
+                        <br />
+                        Still dancing.
                     </p>
                 </div>
 
                 {/* Scene selector */}
-                <div className="flex gap-3 md:gap-4 mb-6 overflow-x-auto scrollbar-hide pb-2 justify-start md:justify-center">
-                    {scenes.map((s, i) => (
+                <div
+                    className="mb-7 flex w-full gap-2 overflow-x-scroll overflow-y-hidden pb-3"
+                    style={{ WebkitOverflowScrolling: 'touch' }}
+                >
+                    {scenes.map((scene, index) => (
                         <button
-                            key={s.id}
-                            onClick={() => setActive(i)}
-                            className={`flex-shrink-0 px-5 py-2.5 rounded-full font-display text-xs md:text-sm tracking-wider transition-all ${active === i
-                                ? 'bg-emerald-400 text-black scale-105'
-                                : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'
+                            key={scene.id}
+                            onClick={() => setActive(index)}
+                            className={`flex-shrink-0 rounded-full border px-4 py-2 text-[10px] font-black tracking-[0.12em] transition-all md:px-5 md:text-xs ${active === index
+                                ? 'border-[#ffd62c] bg-[#ffd62c] text-[#10251b]'
+                                : 'border-white/15 text-white/50 hover:border-white/40 hover:text-white'
                                 }`}
                         >
-                            {String(s.id).padStart(2, '0')} · {s.name}
+                            {String(scene.id).padStart(2, '0')}
+                            {' · '}
+                            {scene.name}
                         </button>
                     ))}
                 </div>
@@ -115,81 +168,126 @@ export default function SceneGallery() {
                 {/* Interactive scene */}
                 <div
                     ref={containerRef}
-                    className="relative w-full aspect-[16/9] rounded-3xl overflow-hidden cursor-grab active:cursor-grabbing select-none border border-emerald-400/20 card-glow"
-                    onMouseDown={(e) => { setShowHint(false); handleStart(e.clientX, e.clientY); }}
-                    onMouseMove={(e) => handleMove(e.clientX, e.clientY)}
+                    className="group relative aspect-[16/9] w-full cursor-grab overflow-hidden rounded-[2rem] border-2 border-white/10 bg-black active:cursor-grabbing select-none md:rounded-[3rem]"
+                    onMouseDown={(e) => {
+                        setShowHint(false);
+                        handleStart(e.clientX, e.clientY);
+                    }}
+                    onMouseMove={(e) =>
+                        handleMove(e.clientX, e.clientY)
+                    }
                     onMouseUp={handleEnd}
                     onMouseLeave={handleEnd}
-                    onTouchStart={(e) => { setShowHint(false); handleStart(e.touches[0].clientX, e.touches[0].clientY); }}
-                    onTouchMove={(e) => handleMove(e.touches[0].clientX, e.touches[0].clientY)}
+                    onTouchStart={(e) => {
+                        setShowHint(false);
+                        handleStart(
+                            e.touches[0].clientX,
+                            e.touches[0].clientY
+                        );
+                    }}
+                    onTouchMove={(e) =>
+                        handleMove(
+                            e.touches[0].clientX,
+                            e.touches[0].clientY
+                        )
+                    }
                     onTouchEnd={handleEnd}
                 >
                     <img
                         src={scenes[active].image}
                         alt={scenes[active].name}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                         draggable={false}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
-                    {/* Draggable doggo */}
+                    {/* Dark gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />
+
+                    {/* Draggable Doggo */}
                     <div
                         className="absolute pointer-events-none"
                         style={{
                             left: `${catPos.x}%`,
                             top: `${catPos.y}%`,
                             transform: 'translate(-50%, -50%)',
-                            transition: dragging ? 'none' : 'left 0.3s ease, top 0.3s ease',
+                            transition: dragging
+                                ? 'none'
+                                : 'left 0.3s ease, top 0.3s ease',
                         }}
                     >
                         <div className="relative">
-                            {/* Speed lines when dragging */}
+
+                            {/* Speed lines */}
                             {dragging && (
-                                <div className="absolute -left-16 top-1/2 -translate-y-1/2 flex gap-1">
+                                <div className="absolute -left-16 top-1/2 flex -translate-y-1/2 gap-1">
                                     {[0, 1, 2].map((i) => (
                                         <div
                                             key={i}
-                                            className="h-1 bg-white/60 rounded-full animate-speed-lines"
-                                            style={{ width: 20 + i * 10, animationDelay: `${i * 0.1}s` }}
+                                            className="h-1 rounded-full bg-[#ffd62c] animate-speed-lines"
+                                            style={{
+                                                width: 20 + i * 10,
+                                                animationDelay: `${i * 0.1}s`,
+                                            }}
                                         />
                                     ))}
                                 </div>
                             )}
-                            {/* Dust puffs */}
-                            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+
+                            {/* Dust */}
+                            <div className="absolute -bottom-2 left-1/2 flex -translate-x-1/2 gap-2">
                                 {[0, 1].map((i) => (
                                     <div
                                         key={i}
-                                        className="w-3 h-3 bg-white/40 rounded-full animate-dust"
-                                        style={{ animationDelay: `${i * 0.2}s` }}
+                                        className="h-3 w-3 rounded-full bg-white/40 animate-dust"
+                                        style={{
+                                            animationDelay: `${i * 0.2}s`,
+                                        }}
                                     />
                                 ))}
                             </div>
-                            <ZoomieCat size={80} fast={dragging} />
+
+                            <ZoomieCat
+                                size={90}
+                                fast={dragging}
+                            />
                         </div>
+                    </div>
+
+                    {/* Scene information */}
+                    <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8">
+                        <p className="mb-2 text-xs font-black tracking-[0.25em] text-[#ffd62c]">
+                            {String(active + 1).padStart(2, '0')} /{' '}
+                            {String(scenes.length).padStart(2, '0')}
+                        </p>
+
+                        <h3 className="font-display text-3xl font-black tracking-tight text-white md:text-5xl">
+                            {scenes[active].name}
+                        </h3>
+
+                        <p className="mt-1 text-sm text-white/60 md:text-base">
+                            {scenes[active].caption}
+                        </p>
                     </div>
 
                     {/* Hint */}
                     {showHint && (
-                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm px-5 py-3 rounded-full text-sm text-white/80 flex items-center gap-2 animate-float-slow">
-                            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                            Drag the doggo. He doesn't mind.
+                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/50 px-5 py-3 text-xs font-bold text-white backdrop-blur-md">
+                            <span className="mr-2 text-[#35e77f]">●</span>
+                            DRAG DOGGO AROUND
                         </div>
                     )}
-
-                    {/* Scene label */}
-                    <div className="absolute top-6 left-6">
-                        <p className="text-emerald-400 font-display text-xs tracking-[0.3em] mb-1">
-                            {String(active + 1).padStart(2, '0')} / {String(scenes.length).padStart(2, '0')}
-                        </p>
-                        <h3 className="font-display text-2xl md:text-3xl text-white">{scenes[active].name}</h3>
-                        <p className="text-white/60 text-sm mt-1">{scenes[active].caption}</p>
-                    </div>
                 </div>
 
-                <p className="text-center text-white/30 text-sm mt-4">
-                    Drag to move him · Tap to grab · Arrow keys work too (Home to reset)
-                </p>
+                {/* Bottom instruction */}
+                <div className="mt-5 flex items-center justify-between text-[10px] font-bold tracking-[0.15em] text-white/30">
+                    <span>
+                        DRAG · TAP · MOVE
+                    </span>
+
+                    <span>
+                        HOME TO RESET
+                    </span>
+                </div>
             </div>
         </section>
     );
