@@ -64,7 +64,6 @@ export default function SceneGallery() {
     const handleStart = useCallback((clientX: number, clientY: number) => {
         const rect = containerRef.current?.getBoundingClientRect();
         if (!rect) return;
-        const catSize = 80;
         const x = clientX - rect.left;
         const y = clientY - rect.top;
         offset.current = { x: x - catPos.x * rect.width / 100, y: y - catPos.y * rect.height / 100 };
